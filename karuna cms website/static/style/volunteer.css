@@ -1,0 +1,152 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* General Layout */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #eef3fc; /* Light blue background */
+}
+
+h1 {
+    text-align: center;
+    margin-top: 30px;
+    color: #1a4d8f; /* Darker blue for text */
+}
+
+/* Top Section */
+.top-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 30px;
+    padding: 10px;
+}
+
+.top-section input {
+    width: 60%;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+}
+
+.top-section button {
+    padding: 12px 20px;
+    font-size: 16px;
+    background-color: #007bff; /* Primary blue */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.top-section button:hover {
+    background-color: #0056b3; /* Darker blue */
+}
+
+/* Table Styling */
+.table-container {
+    margin: 30px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.volunteer-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #fff;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.volunteer-table th,
+.volunteer-table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    color: #333;
+}
+
+.volunteer-table th {
+    background-color: #007bff; /* Primary blue */
+    color: white;
+    font-weight: bold;
+}
+
+.volunteer-table tr:nth-child(even) {
+    background-color: #f2f7fc; /* Very light blue for even rows */
+}
+
+.volunteer-table tr:hover {
+    background-color: #dce7f8; /* Light blue on hover */
+}
+
+.volunteer-table td {
+    vertical-align: middle;
+}
+
+.volunteer-table td button {
+    padding: 8px 16px;
+    font-size: 14px;
+    background-color: #1a4d8f; /* Dark blue for buttons */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.volunteer-table td button:hover {
+    background-color: #143a70; /* Even darker blue */
+}
+
+.volunteer-table td button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+/* Styling for the Select Checkbox */
+.volunteer-table td input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .top-section {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .top-section input {
+        width: 80%;
+        margin-bottom: 10px;
+    }
+
+    .top-section button {
+        width: 80%;
+    }
+
+    .volunteer-table {
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .volunteer-table th, .volunteer-table td {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    .volunteer-table td button {
+        width: 100%;
+    }
+}

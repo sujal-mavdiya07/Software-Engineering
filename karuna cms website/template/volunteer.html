@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'style/volunteer.css' %}">
+{% endblock %}
+
+{% block title %}Volunteer Management{% endblock %}
+
+{% block content %}
+<div class="text-center mb-2">
+    {% for message in messages %}
+    <i class="text-danger text-center">{{ message }}</i>
+    {% endfor %}
+</div>
+    <h1>Volunteer Management</h1>
+
+    <!-- Volunteer Table -->
+    <div class="table-container">
+        <table class="volunteer-table">
+            <thead>
+                <tr>
+                    <th>Index</th>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Sex</th>
+                    <th>Skills</th>
+                    <th>Organization</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for volunteer in volunteers %}
+                <tr>
+                   
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ volunteer.user.get_full_name }}</td>
+                    <td>{{ volunteer.age }}</td>
+                    <td>{{ volunteer.get_sex_display }}</td>
+                    <td>{{ volunteer.skills }}</td>
+                    <td>
+                            {{ volunteer.organization.user.get_full_name }}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="10">No volunteers available.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

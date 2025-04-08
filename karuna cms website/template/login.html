@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Login | Crisis Management{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'style/login.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+
+    {% if messages %}
+    <div class="text-center mb-2">
+        {% for message in messages %}
+        <i class="text-danger text-center">{{ message }}</i>
+        {% endfor %}
+    </div>
+    {% endif %}
+<div class="login-form container mt-5">
+    <h2 class="text-center mb-4">Login</h2>
+    <form method="POST" class="mx-1">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
+        </div>
+        <div class="mb-4">
+            <label for="inputPassword" class="form-label">Password</label>
+            <input type="password" class="form-control" id="inputPassword" name="password" placeholder="Password">
+        </div>
+        <div class="text-center">
+            <input class="btn btn-success" type="submit" value="Login" />
+        </div>
+    </form>
+    <p class="forgot-text text-center mt-3">Forgot Password? <a href="{% url 'password_reset' %}" class="forgot-link">Forget</a></p>
+    <p class="register-text text-center mt-3">Don't have an account? <a href="{% url 'register' %}" class="register-link">Register</a></p>
+    <p class="register-text text-center mt-3">Are you admin? <a href="/admin/" class="register-link">Admin Panel</a></p>
+</div>
+{% endblock %}

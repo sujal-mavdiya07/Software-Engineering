@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Home | Crisis Management{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'style/homepage.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="text-center mb-2">
+    {% for message in messages %}
+    <i class="text-danger text-center">{{ message }}</i>
+    {% endfor %}
+</div>
+    <!-- Carousel Section -->
+    <section class="carousel-container">
+        <!-- Carousel Slider -->
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="7000">
+            <ol class="carousel-indicators">
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="../static/media/homepage_slider1.webp" class="d-block w-100" alt="Slide 1">
+                </div>
+                <div class="carousel-item">
+                    <img src="../static/media/homepage_slider2.jpg" class="d-block w-100" alt="Slide 2">
+                </div>
+                <div class="carousel-item">
+                    <img src="../static/media/homepage_slider3.jpg" class="d-block w-100" alt="Slide 3">
+                </div>
+                <div class="carousel-item">
+                    <img src="../static/media/homepage_slider4.webp" class="d-block w-100" alt="Slide 4">
+                </div>
+                <div class="carousel-item">
+                    <img src="../static/media/homepage_slider5.jpg" class="d-block w-100" alt="Slide 5">
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    
+        <!-- Report Incident Form Overlay -->
+        <div class="report-incident">
+            <h1>Report an Incident</h1>
+            <form method="POST">
+                {% csrf_token %}
+                <label for="incident-type">Incident Type *</label>
+                <input type="text" name="name" id="incident-type" minlength="5" maxlength="100" placeholder="Describe the incident type..." required>
+                
+                <label for="description">Description *</label>
+                <textarea id="description" name="description" minlength="10" maxlength="1000" placeholder="Describe the incident..." required></textarea>
+                
+                <label for="severity">Severity Level *</label>
+                <input type="range" name="severity" id="severity" min="1" max="10" value="5" required>
+                
+                <div class="severity-labels">
+                    <span>1</span>
+                    <span>2</span>
+                    <span>3</span>
+                    <span>4</span>
+                    <span>5</span>
+                    <span>6</span>
+                    <span>7</span>
+                    <span>8</span>
+                    <span>9</span>
+                    <span>10</span>
+                </div>
+                
+                <input type="hidden" name="latitude" id="latitude">
+                <input type="hidden" name="longitude" id="longitude">
+                
+                <button type="submit" id="report-button" disabled>Report Incident</button>
+                
+                <script>
+                    const reportButton = document.getElementById("report-button");
+        
+                    // Attempt to get the user's location
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(
+                            function(position) {
+                                // Set location data
+                                document.getElementById("latitude").value = position.coords.latitude;
+                                document.getElementById("longitude").value = position.coords.longitude;
+        
+                                // Enable the button
+                                reportButton.disabled = false;
+                            },
+                            function(error) {
+                                // Handle location errors
+                                if (error.code === error.PERMISSION_DENIED) {
+                                    alert("Location access is blocked. Please enable location services to report an incident.");
+                                } else {
+                                    alert("An error occurred while retrieving your location. Please try again.");
+                                }
+        
+                                // Keep the button disabled
+                                reportButton.disabled = true;
+                            }
+                        );
+                    } else {
+                        alert("Geolocation is not supported by this browser.");
+                        reportButton.disabled = true;
+                    }
+                </script>
+            </form>
+        </div>
+        
+        
+    </section>
+    
+      <!-- About Section -->
+      <section id = "about" class="about-section">
+        <div class="card">
+          <h1>About Us:</h1>
+          <strong>
+            <p>
+            Imagine you're in the midst of a natural disaster or a local emergency. You see people in need, organizations wanting to help, and volunteers ready to act—but there’s no system to connect them all effectively. That’s where KarunaCMS steps in.
+            </p>
+            <p>
+            KarunaCMS is a platform that bridges the gap between citizens, volunteers, and organizations to respond to crises faster and more efficiently. Whether it’s reporting an incident, coordinating resources, or volunteering to help, KarunaCMS empowers communities to take meaningful action during critical times.
+            </p>
+        </strong>
+          <ul>
+            <li>Citizens can report incidents and get real-time crisis updates.</li>
+            <li>Volunteers can sign up for tasks and receive notifications for assignments.</li>
+            <li>Relief organizations can manage resources, track volunteer tasks, and receive donations.</li>
+            <li>Integrated donation feature ensures resources reach affected areas.</li>
+            <li>Promotes seamless communication for efficient and effective emergency management.</li>
+          </ul>
+        </div>
+    
+        <div class="card">
+          <h1>Features Implemented:</h1>
+          <ul>
+        <li><strong>User Registration & Authentication:</strong>
+            <ul>
+                <li>Register users as volunteers or organizations.</li>
+                <li>Password validation, including length and confirmation checks.</li>
+                <li>Login and logout functionality.</li>
+            </ul>
+        </li>
+
+        <li><strong>Profile Management:</strong>
+            <ul>
+                <li>Separate profiles for volunteers and organizations.</li>
+                <li>Edit profile options tailored to their respective attributes.</li>
+            </ul>
+        </li>
+
+        <li><strong>Resource Management:</strong>
+            <ul>
+                <li>Organizations can manage resources, including adding and deleting them.</li>
+            </ul>
+        </li>
+
+        <li><strong>Volunteer-Organization Interaction:</strong>
+            <ul>
+                <li>Organizations can view their volunteers.</li>
+                <li>Tasks can be created and assigned to volunteers.</li>
+            </ul>
+        </li>
+
+        <li><strong>Task Management:</strong>
+            <ul>
+                <li>Tasks associated with crises can be created, viewed, updated, and deleted.</li>
+                <li>Volunteers can accept tasks and mark them as done.</li>
+            </ul>
+        </li>
+    </ul>
+        </div>
+      </section>
+    <script>
+        // script.js
+    document.addEventListener("DOMContentLoaded", function () {
+    const teamSection = document.querySelector(".team");
+    
+    function updateGridColumns() {
+        const screenWidth = window.innerWidth;
+        let columns;
+    
+        if (screenWidth > 1000) {
+            columns = 5; // Large screens
+        } else if (screenWidth > 800) {
+            columns = 3; // Medium screens
+        } else if (screenWidth > 600) {
+            columns = 3; // Small screens
+        } else if (screenWidth > 450) {
+            columns = 2; // Extra small screens
+        } else{
+            columns = 1; // Mobile screens
+        }
+    
+        teamSection.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
+    }
+    
+    // Run on load
+    updateGridColumns();
+    
+    // Update on window resize
+    window.addEventListener("resize", updateGridColumns);
+    });
+    </script>
+    </section>
+{% endblock %}

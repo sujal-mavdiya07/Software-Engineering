@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'style/profile.css' %}" />
+{% endblock %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<div class="profile-page-container">
+    <!-- Left Section: Profile Information -->
+    <div class="profile-left">
+        {% if profile_type == 'volunteer' %}
+        <h2>Volunteer Profile</h2>
+        <div class="profile-info-box">
+            <div class="profile-info-row">
+                <div class="profile-info-label">Name:</div>
+                <div class="profile-info-value">{{ profile.user.get_full_name }}</div>
+            </div>
+            <div class="profile-info-row">
+                <div class="profile-info-label">Email:</div>
+                <div class="profile-info-value">{{ profile.user }}</div>
+            </div>
+            <div class="profile-info-row">
+                <div class="profile-info-label">Age:</div>
+                <div class="profile-info-value">{{ profile.age }}</div>
+            </div>
+            <div class="profile-info-row">
+                <div class="profile-info-label">Sex:</div>
+                <div class="profile-info-value">{{ profile.get_sex_display }}</div>
+            </div>
+            <div class="profile-info-row">
+                <div class="profile-info-label">Skills:</div>
+                <div class="profile-info-value">{{ profile.skills }}</div>
+            </div>
+        </div>
+        <button
+            onclick="window.location.href='{% url 'edit_volunteer_profile' %}'"
+            class="edit-btn"
+        >
+            Edit Profile
+        </button>
+        <form
+            action="{% url 'delete_user' %}"
+            method="POST"
+            style="display: inline-block; margin-top: 10px;"
+            onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');"
+        >
+            {% csrf_token %}
+            <button type="submit" class="edit-btn">Delete Profile</button>
+        </form>
+        {% elif profile_type == 'organization' %}
+        <h2>Organization Profile</h2>
+        <div class="profile-info-box">
+            <div class="profile-info-row">
+                <div class="profile-info-label">Name:</div>
+                <div class="profile-info-value">{{ profile.user.get_full_name }}</div>
+            </div>
+            <div class="profile-info-row">
+                <div class="profile-info-label">Email:</div>
+                <div class="profile-info-value">{{ profile.user }}</div>
+            </div>
+            <div class="profile-info-row">
+                <div class="profile-info-label">Domain:</div>
+                <div class="profile-info-value">{{ profile.domain }}</div>
+            </div>
+            <div class="profile-info-row">
+                <div class="profile-info-label">Level:</div>
+                <div class="profile-info-value">{{ profile.get_level_display }}</div>
+            </div>
+        </div>
+        <button
+            onclick="window.location.href='{% url 'edit_organization_profile' %}'"
+            class="edit-btn"
+        >
+            Edit Profile
+        </button>
+        <form
+            action="{% url 'delete_user' %}"
+            method="POST"
+            style="display: inline-block; margin-top: 10px;"
+            onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');"
+        >
+            {% csrf_token %}
+            <button type="submit" class="edit-btn">Delete Profile</button>
+        </form>
+        {% else %}
+        <p style="text-align: center">No profile information found.</p>
+        {% endif %}
+        <form
+            action="{% url 'logout' %}"
+            method="POST"
+            style="margin-top: 20px"
+        >
+            {% csrf_token %}
+            <button type="submit" class="logout-btn">Logout</button>
+        </form>
+    </div>
+
+    <!-- Right Section: My Crises -->
+    <div class="profile-right">
+        <h2>Ongoing Crisis</h2>
+        <div class="crisis-list">
+            {% for report in assigned_crises %}
+            <div class="crisis-item">
+                <div class="report-details">
+                    <h5 class="report-title">{{ report.name }}</h5>
+                    <h6 class="report-date">{{ report.time }}</h6>
+                    <p class="report-description">{{ report.description }}</p>
+                    <h6 class="severity-label">
+                        Severity Level:
+                        <span class="severity-value">{{ report.severitylvl }}</span>
+                    </h6>
+                    {% if request.user.organization %}
+                    <a
+                        class="btn btn-success"
+                        href="{% url 'solved' cID=report.crisisID %}"
+                    >
+                        Mark As Solved
+                    </a>
+                    {% endif %}
+                    <a
+                        href="{% url 'crisis_tasks' report.crisisID %}"
+                        class="btn btn-primary"
+                    >
+                        Tasks
+                    </a>
+                </div>
+                <div class="report-map">
+                    <iframe
+                        src="https://maps.google.com/maps?q={{ report.lat }},{{ report.lon }}&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                        frameborder="0"
+                        scrolling="no"
+                    ></iframe>
+                </div>
+            </div>
+            {% empty %}
+            <p>No assigned crises found.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
